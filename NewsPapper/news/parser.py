@@ -40,16 +40,17 @@ def parcer():
 
     for news in list_news:
         news = news.text
-        #print(news)
+        print(news)
 
 
     for date in soup.findAll(class_='_content__bottom_1tbpr_1'):
         date = date.find("span").get_text()
-        #print(date)
+        print(date)
 
+    obj = News()
+    obj.date = date
+    obj.title = news
+    obj.description = '---'
+    obj.save()
 
-    object = News()
-    object.date = date
-    object.title = news
-    object.description = '---'
-    object.save()
+parcer()
