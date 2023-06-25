@@ -1,56 +1,31 @@
-'''import requests
+from django.shortcuts import render
+from .models import News
+import requests
 from bs4 import BeautifulSoup as BS
 
-main_url = "https://stopgame.ru/newsdata/"
-link = 58316
+main_url = "https://stopgame.ru/news"
 
-for i in range(0, 20):
+r = requests.get(main_url)
+soup = BS(r.text, "lxml")
+news_list = soup.findAll("div", class_="_card_1tbpr_1")
 
-    r = requests.get(main_url + str(link))
-    soup = BS(r.text, "lxml")
+for news in news_list:
+    html = news.find("a", class_="_title_1tbpr_49")
+    title = html.get_text()
+    url = "".join(html.get("href"))
+    identificator = url[10:15]
+    date = news.find("div", class_="_info-row_1tbpr_105").find("span").get_text()
 
-    title = soup.find("h1").get_text()
-    date = soup.find("span", class_="_date_1c0t7_537 _date--full_1c0t7_1").get_text()
-    description = ""
-
-    for i in soup.findAll('p', class_="_text_1c0t7_89 _text-width_1c0t7_89"):
-        description = description + str(i.get_text()) + "\n"
-
-    link += 1
-
-    print(title)'''
-
-#with open ('https://stopgame.ru/') as file:
- #   src = file.read
-#soup = BeautifulSoup(src, 'lxml')
-#title = soup.head
-
-#print(list_news)
-
-def parcer():
-    import requests
-    from bs4 import BeautifulSoup as BS
-    from .models import News
-
-    r = requests.get('https://stopgame.ru/news')
-    soup = BS(r.text, "lxml")
-
-
-    list_news = soup.find(class_ = "list-view").find_all(class_ = "_title_1tbpr_49")
-
-    for news in list_news:
-        news = news.text
-        print(news)
-
-
-    for date in soup.findAll(class_='_content__bottom_1tbpr_1'):
-        date = date.find("span").get_text()
-        print(date)
+    print(f"{title} \n {identificator} \n {date}")
 
     obj = News()
+    obj.title = title
     obj.date = date
-    obj.title = news
-    obj.description = '---'
+    obj.description = "Null"
+    obj.identificator = identificator
     obj.save()
 
-parcer()
+def my_view(request):
+    value1 = 42
+    value2 = "Пример текста"
+    return render(request, 'C:/python scripts/projects/NewsPaper1/templates/flatpages/table.html', {'value1': value1, 'value2': value2})
