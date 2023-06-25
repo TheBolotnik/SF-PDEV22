@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import News
 import requests
 from bs4 import BeautifulSoup as BS
+#import json
 
 main_url = "https://stopgame.ru/news"
 
@@ -17,6 +18,7 @@ for news in news_list:
     date = news.find("div", class_="_info-row_1tbpr_105").find("span").get_text()
 
     print(f"{title} \n {identificator} \n {date}")
+
 
     obj = News()
     obj.title = title

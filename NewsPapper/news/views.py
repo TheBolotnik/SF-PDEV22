@@ -13,27 +13,37 @@ menu = [
 def index(request):
     return render(request, 'news/index.html', {'menu': menu, 'title': 'Главная страница'})
 
-def newslist(requests):
+def newslist(request):
     posts = News.objects.all()
+    cats = Category.objects.all()
+
     context = {
         'posts': posts,
+        'cats': cats,
         'menu': menu,
         'title': 'Список новостей',
+        'cat_selected': 0,
 
     }
 
-    return render(requests, 'news/NewsList.html', context=context)
+    return render(request, 'news/NewsList.html', context=context)
+
+
+def post(request, post_id):
+    return HttpResponse(f'Отображение статьи с id = {post_id}')
+
+def category(request, cat_id):
+    return HttpResponse(f'Отображение категории с id = {cat_id}')
+
 
 def add_news(requests):
     return HttpResponse('Добавить новость')
 
-def login(requests):
+def login(request):
     return HttpResponse('Войти')
 
-def post(requests, post_id):
-    return HttpResponse(f'Отображение статьи с id = {post_id}')
 
-def PageNotFound(requests, exeption):
+def PageNotFound(request, exeption):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
