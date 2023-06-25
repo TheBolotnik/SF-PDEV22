@@ -33,8 +33,20 @@ def post(request, post_id):
     return HttpResponse(f'Отображение статьи с id = {post_id}')
 
 def category(request, cat_id):
-    return HttpResponse(f'Отображение категории с id = {cat_id}')
+    posts = News.objects.filter(cat_id=cat_id)
+    cats = Category.objects.all()
 
+    context = {
+        'posts': posts,
+        'cats': cats,
+        'menu': menu,
+        'title': 'Категории',
+        'cat_selected': cat_id,
+
+    }
+
+    if len(posts) == 0:
+        raise Http404()
 
 def add_news(requests):
     return HttpResponse('Добавить новость')

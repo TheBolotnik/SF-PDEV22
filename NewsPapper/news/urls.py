@@ -23,7 +23,7 @@ urlpatterns = [
     path('add_news/', add_news, name='add_news'),
     path('login', login, name='login'),
     path('post/<int:post_id>/', post, name='post'),
-    path('category/<int:cats_id>', category, name='category'),
+    path('category/<int:cat_id>', category, name='category'),
 
 
     #path('/newslist', NewsList, name=NewsList),
