@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractBaseUser
+from django.urls import reverse
 #import views
 
 '''
@@ -39,6 +40,9 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_url(self):
+        return reverse('post', kwargs={'post_id': self.pk})
 
 class Author(models.Model):
     name = models.CharField(max_length=255),
