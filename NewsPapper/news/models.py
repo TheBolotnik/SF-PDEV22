@@ -3,21 +3,6 @@ from django.contrib.auth.models import User, AbstractBaseUser
 from django.urls import reverse
 #import views
 
-'''
-class News(models.Model):
-    date = models.CharField(max_length=20)
-    title = models.CharField(max_length=20)
-    description = models.CharField(max_length=20)
-    
-         def preview(self):
-            preview_len = 124
-            if preview_len >= 124:
-                return self.content[:preview_len] + '...'
-            else:
-                return self.content
-    
-'''
-
 
 type = [
     ('ARTICLE', 'Статья'),
@@ -45,10 +30,11 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 class News(models.Model):
-    date = models.CharField(max_length=20)
-    title = models.CharField(max_length=20, blank=True)
-    description = models.CharField(max_length=20, blank=True)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
+    date = models.CharField(max_length=20, verbose_name='Дата')
+    title = models.CharField(max_length=255, blank=True, verbose_name='Заголовок')
+    description = models.TextField( blank=True, verbose_name='Содержание')
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
+    auth = models.ForeignKey('Author', on_delete=models.PROTECT, null=True, verbose_name='Автор')
 
     def __str__(self):
         return self.title

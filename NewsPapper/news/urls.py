@@ -18,17 +18,12 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', index, name='home'),
-    path('news/', newslist, name='news'),
-    path('add_news/', add_news, name='add_news'),
+    path('', NewsHome.as_view(), name='home'),
+    path('news/', NewsList.as_view(), name='news'),
+    path('news/create/', AddNews.as_view(), name='add_news'),
     path('login', login, name='login'),
-    path('post/<int:post_id>/', post, name='post'),
-    path('category/<int:cat_id>', category, name='category'),
-
-
-    #path('/newslist', NewsList, name=NewsList),
-    #path('news/', views.NewsList.as_view()),
-    #path('pages/', include('django.contrib.flatpages.urls')),
-
+    path('post/<int:post_id>/', ShowPost.as_view(), name='post'),
+    path('category/<int:cat_id>', NewsCategory.as_view(), name='category'),
+    path('news/search', Search.as_view(), name='search'),
 
 ]
