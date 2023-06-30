@@ -1,0 +1,14 @@
+{% extends 'news/default.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+
+<form method="get">
+       {{ filter.form.as_p }}
+       <input type="submit" value="Найти" />
+</form>
+       {% for obj in posts %}
+              {{ obj.date }}---{{ obj.title }}---{{ obj.description|truncatechars:20 }}<br />
+       {% endfor %}
+
+{% endblock %}

@@ -2,13 +2,17 @@
 
 {% block content %}
 <h1>{{title}}</h1>
+
+
+
 <ul class="news_list">
     {% for p in posts %}
     <li>
+        <p class="first">Категория: {{p.cat}}</p>
         <h2>{{p.title}}</h2>
         <p>{{p.date}}</p>
         <p>{{p.description|truncatechars:20}}</p>
-        <p class="read_post"><a href="{{p.get_url}}">Читать новость</a></p>
+        <p class="read_post"><a href="{{p.get_absolute_url}}">Читать новость</a></p>
         <hr>
     </li>
     {% endfor %}
