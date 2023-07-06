@@ -21,9 +21,11 @@ urlpatterns = [
     path('', NewsHome.as_view(), name='home'),
     path('news/', NewsList.as_view(), name='news'),
     path('news/create/', AddNews.as_view(), name='add_news'),
-    path('login', login, name='login'),
+    path('news/search', Search.as_view(), name='search'),
     path('post/<int:post_id>/', ShowPost.as_view(), name='post'),
     path('category/<int:cat_id>', NewsCategory.as_view(), name='category'),
-    path('news/search', Search.as_view(), name='search'),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
+    path('signin/', SignIn.as_view(), name='signin'),
 
 ]

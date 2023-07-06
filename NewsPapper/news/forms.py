@@ -1,5 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+#from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 from .models import *
 
@@ -24,3 +27,29 @@ class AddNewsForm(forms.ModelForm):
         if description is not None and len(description) < 20:
             raise ValidationError({'description': 'Описание не может быть менее 20 символов'})
         return cleaned_data
+
+
+class SignInForm(UserCreationForm):
+
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'}))
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+    # class Meta:
+    #     model = User
+    #     fields = ('username', 'email', 'password1', 'password2')
+    #     widgets = {
+    #             'username': forms.TextInput(attrs={'class': 'form-input'}),
+    #             'password1': forms.PasswordInput(attrs={'class': 'form-input'}),
+    #             'password2': forms.PasswordInput(attrs={'class': 'form-input'}),
+    #     }
+
+
+''' Если нужно, чтобы заработал класс Мета нужно заменить модель User из .models на django.contrib.auth.models,
+раскомментировать класс'''
+
+
+class LogInForm(AuthenticationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))

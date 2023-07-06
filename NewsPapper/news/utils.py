@@ -4,7 +4,6 @@ menu = [
     {'title': 'Главная страница', 'url_name': 'home' },
     {'title': 'Новости', 'url_name': 'news'},
     {'title': 'Добавить новость', 'url_name': 'add_news'},
-    {'title': 'Войти', 'url_name': 'login'},
     {'title': 'Поиск', 'url_name': 'search'},
 ]
 

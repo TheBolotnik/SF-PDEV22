@@ -1,8 +1,14 @@
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, logout
 
 from .models import News, Category
 from .forms import *
@@ -97,9 +103,35 @@ class Search(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
-def login(request):
-    return HttpResponse('Войти')
+class Login(DataMixin, LoginView):
+    form_class = LogInForm
+    template_name = 'news/login.html'
 
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Авторизация')
+        return dict(list(context.items()) + list(c_def.items()))
+
+
+def logout_user(requests):
+    logout(requests)
+    return redirect('login')
+
+class SignIn(DataMixin, CreateView):
+    form_class = SignInForm
+    template_name = 'news/signin.html'
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Регистрация')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
 
 def PageNotFound(request, exeption):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')

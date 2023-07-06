@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractBaseUser
+from django.contrib.auth.models import User, AbstractBaseUser, AbstractUser
 from django.urls import reverse
 #import views
 
