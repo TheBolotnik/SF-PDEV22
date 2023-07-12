@@ -108,6 +108,7 @@ class Login(DataMixin, LoginView):
     template_name = 'news/login.html'
 
 
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Авторизация')
@@ -117,6 +118,12 @@ class Login(DataMixin, LoginView):
 def logout_user(requests):
     logout(requests)
     return redirect('login')
+
+class UserSignUp(CreateView):
+    model = User
+    form_class = UserSignUpForm
+    success_url = '/'
+
 
 class SignIn(DataMixin, CreateView):
     form_class = SignInForm

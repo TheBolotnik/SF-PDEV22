@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import AuthenticationForm
+from allauth.account.forms import SignupForm
 
 from .models import *
 
@@ -48,6 +49,28 @@ class SignInForm(UserCreationForm):
 
 ''' Если нужно, чтобы заработал класс Мета нужно заменить модель User из .models на django.contrib.auth.models,
 раскомментировать класс'''
+
+
+class UserSignUpForm(SignupForm):
+    email = forms.EmailField(label="Email")
+    first_name = forms.CharField(label="Имя")
+    last_name = forms.CharField(label="Фамилия")
+
+    class Meta:
+        model = User
+        fields = ("username",
+                  "first_name",
+                  "last_name",
+                  "email",
+                  "password1",
+                  "password2",)
+
+    def save(self, request):
+        user = super(UserSignUpForm, self).save(request)
+        basic_group = Group.objects.get(name='common')
+        basic_group.user_set.add(user)
+        return user
+
 
 
 class LogInForm(AuthenticationForm):
