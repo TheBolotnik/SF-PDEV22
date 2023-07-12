@@ -1,4 +1,7 @@
 {% extends 'news/default.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+{% get_providers as socialaccount_providers %}
 
 {% block content %}
 <h1>{{title}}</h1>
@@ -6,15 +9,25 @@
 <form method="post">
     {% csrf_token %}
 
-    <div class="form-error">{{ form.non_filed_errors }}</div>
+<div class="form-error">{{ form.non_field_errors }}</div>
 
-    {% for f in form %}
-    <p><label class="form-label" for="{{ f.id_for_label }}"> {{ f.label }}:  </label>{{ f }}</p>
-    <div class="form-error">{{ f.errors }}</div>
-    {% endfor %}
+{% for f in form %}
+<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+<div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+
 
 
     <button type="submit">Войти</button>
 </form>
+
+<div>
+  <form>
+  {% csrf_token %}
+    <p><h3>Вход с помощью социальных сетей:</h3></p>
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+      <a href="{{ signup_url }}"></a>
+  </form>
+</div>
 
 {% endblock %}
