@@ -45,16 +45,20 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     'django.contrib.flatpages',
-    'django_filters',
 
     'news',
-    'accounts',
 
-    'NewsPapper',
 ]
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_FORMS = {'signup': 'news.form.UserSignUpForm'}
 
 SITE_ID = 1
 
@@ -107,7 +111,7 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = [
 
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.accounts.auth_backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 
