@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from .views import *
-import allauth
+
 
 urlpatterns = [
     path('', NewsHome.as_view(), name='home'),
