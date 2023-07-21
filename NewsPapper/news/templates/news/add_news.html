@@ -1,6 +1,7 @@
 {% extends 'news/default.html' %}
 
 {% block content %}
+
 <h1>{{title}}</h1>
 
 <form action="{% url 'add_news' %}" method="post">
@@ -10,12 +11,17 @@
 
     <div class="form-error">{{ form.non_field_errors }}</div>
 
-    {% for f in form %}
-        <p>
-            <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label> {{ f }}
-        </p>
-        <div class="form-error">{{ f.errors }}</div>
-    {% endfor %}
+    {% if is_not_authors %}
+        <h3>Вы не можете добавлять новости, так как не являетесь автором</h3>
+        <button><a href="upgrade"> Стать автором </a></button>
+    {% else %}
+        {% for f in form %}
+            <p>
+                <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label> {{ f }}
+            </p>
+            <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+     {% endif %}
 
     <button type="submit">Добавить новость</button>
 </form>
