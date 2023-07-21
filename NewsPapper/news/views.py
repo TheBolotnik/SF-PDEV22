@@ -1,11 +1,11 @@
-
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
@@ -69,17 +69,34 @@ class NewsCategory(DataMixin, ListView):
         pass
 
 
-class AddNews(LoginRequiredMixin, DataMixin, CreateView):
+# class UserProfile(DataMixin, ListView):
+#     model = User
+#     template_name = 'profile.html'
+#     context_object_name = 'posts'
+
+
+class AddNews(LoginRequiredMixin, PermissionRequiredMixin, DataMixin, CreateView):
+    permission_required = ('news.add_News')
     form_class = AddNewsForm
     template_name = 'news/add_news.html'
-    success_url = reverse_lazy ('home')
-    login_url = reverse_lazy ('home')
+    success_url = reverse_lazy('home')
+    login_url = reverse_lazy('home')
     raise_exception = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
         c_def = self.get_user_context(title='Добавить новость')
         return dict(list(context.items()) + list(c_def.items()))
+
+
+@login_required
+def upgrade_authors(request):
+    user = request.user
+    authors_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists():
+        authors_group.user_set.add(user)
+    return redirect('/')
 
 class Search(DataMixin, ListView):
     model = News
@@ -119,10 +136,10 @@ def logout_user(requests):
     logout(requests)
     return redirect('login')
 
-class UserSignUp(CreateView):
-    model = User
-    form_class = UserSignUpForm
-    success_url = '/'
+# class UserSignUp(CreateView):
+#     model = User
+#     form_class = UserSignUpForm
+#     success_url = '/'
 
 
 class SignIn(DataMixin, CreateView):

@@ -27,6 +27,9 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
     path('signin/', SignIn.as_view(), name='signin'),
+    path('news/create/upgrade/', upgrade_authors, name='upgrade'),
+
+    #path('profile/', UserProfile.as_view(), name='profile')
 
 
 ]
