@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('signin/', SignIn.as_view(), name='signin'),
     path('news/create/upgrade/', upgrade_authors, name='upgrade'),
+    path('category/<int:cat_id>/subscribe', subscribe, name='subscribe'),
 
     #path('profile/', UserProfile.as_view(), name='profile')
 

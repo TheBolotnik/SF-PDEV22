@@ -16,9 +16,11 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
+    #user_cat = models.ManyToManyField('Category', through='Subscribers')
 
 class Category(models.Model):
-    name = models.CharField(max_length=50, db_index=True)
+    name = models.CharField(max_length=50, db_index=True, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
         return self.name
@@ -27,7 +29,7 @@ class Category(models.Model):
         return reverse('category', kwargs={'cat_id': self.pk})
 
     class Meta:
-        verbose_name_plural = 'Categories'
+        verbose_name_plural = 'Категории'
 
 class News(models.Model):
     date = models.CharField(max_length=20, verbose_name='Дата')
@@ -75,6 +77,7 @@ class Post(models.Model):
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
 
 class Comment(models.Model):
     post_com = models.ForeignKey(Post, on_delete=models.CASCADE)
