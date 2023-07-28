@@ -55,16 +55,17 @@ class ShowPost(DataMixin, DetailView):
 
 class NewsCategory(ListView, DataMixin):
     model = News
-    template_name = 'news/NewsList.html'
+    template_name = 'news/category_list2.html'
     context_object_name = 'posts'
     allow_empty = False
 
+    def get_queryset(self):
+        return News.objects.filter(cat__id=self.kwargs['cat_id']).select_related('cat')
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['is_not_subscribers'] = self.request.user not in self.categories.all()
 
-        # context['is_not_subscribers'] = self.request.user not in self.category.subscribers.all()
-        # context['category'] = self.category
-        # return context
 
 
         c = Category.objects.get(id=self.kwargs['cat_id'])
@@ -75,12 +76,12 @@ class NewsCategory(ListView, DataMixin):
         return dict(list(context.items()) + list(c_def.items()))
 
 
-    def get_queryset(self):
+    #def get_queryset(self):
         # self.category = get_object_or_404(Category, id=self.kwargs['cat_id'])
         # queryset = News.objects.filter(category=self.category)
         # return queryset
 
-        return News.objects.filter(cat__id=self.kwargs['cat_id']).select_related('cat')
+
 
 @login_required
 def subscribe(requests, cat_id):
@@ -141,8 +142,6 @@ class Login(DataMixin, LoginView):
     form_class = LogInForm
     template_name = 'news/login.html'
 
-
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Авторизация')
@@ -152,11 +151,6 @@ class Login(DataMixin, LoginView):
 def logout_user(requests):
     logout(requests)
     return redirect('login')
-
-# class UserSignUp(CreateView):
-#     model = User
-#     form_class = UserSignUpForm
-#     success_url = '/'
 
 
 class SignIn(DataMixin, CreateView):
@@ -174,13 +168,9 @@ class SignIn(DataMixin, CreateView):
         login(self.request, user)
         return redirect('home')
 
+
 def PageNotFound(request, exeption):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
 
-
-'''class NewsList(ListView):
-    model = News
-    template_name = 'NewsList.html'
-    extra_context = {'title' : 'Новости'}'''
