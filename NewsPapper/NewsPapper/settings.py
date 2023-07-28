@@ -55,10 +55,11 @@ LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_FORMS = {'signup': 'news.form.UserSignUpForm'}
+
+ACCOUNT_FORMS = {'signup': 'news.forms.CommonSignupForm'}
 
 SITE_ID = 1
 
@@ -158,4 +159,3 @@ STATICFILES_DIRS = []
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
