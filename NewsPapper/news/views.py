@@ -63,31 +63,23 @@ class NewsCategory(ListView, DataMixin):
         return News.objects.filter(cat__id=self.kwargs['cat_id']).select_related('cat')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_not_subscribers'] = self.request.user not in self.categories.all()
-
-
-
         c = Category.objects.get(id=self.kwargs['cat_id'])
         c_def = self.get_user_context(
             title='Категория - ' + str(c.name),
             cat_selected=c.pk
         )
+        context = super().get_context_data(**kwargs)
+        context['is_not_subscriber'] = self.request.user not in \
+                                       Category.objects.get(id=self.kwargs['cat_id']).subscribers.all()
+
         return dict(list(context.items()) + list(c_def.items()))
-
-
-    #def get_queryset(self):
-        # self.category = get_object_or_404(Category, id=self.kwargs['cat_id'])
-        # queryset = News.objects.filter(category=self.category)
-        # return queryset
-
 
 
 @login_required
 def subscribe(requests, cat_id):
     user = requests.user
     category = Category.objects.get(id=cat_id)
-    category.subscriber.add(user)
+    category.subscribers.add(user)
 
     message = 'Вы подписаны на рассылку'
     return render(requests, 'news/subscribe.html', {'category': category, 'message': message})
