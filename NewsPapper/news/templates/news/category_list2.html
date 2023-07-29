@@ -2,10 +2,17 @@
 
 {% block content %}
 <h1>{{title}}</h1>
+            {% if is_not_subscriber %}
+        	<p class="text-center"><button><a href="{% url 'subscribe' categories.pk %}">Подписаться на категорию</a></button></p>
+        {% else %}
+            <p class="text-center">Вы подписаны на категорию: {{c.id}}</p>
+        {% endif %}
 
-    {% if is_not_subscriber %}
-		<p class="text-center"><button><a href="{% url 'subscribe' category.id %}">Подписаться</a></button></p>
-	{% endif %}
+<!--    {% if is_not_subscriber %}-->
+<!--    		<p class="link-read-post"><a href="{{cats.get_absolute_url}}}">Подписаться на категорию</a></p>-->
+<!--    {% else %}-->
+<!--            <p class="text-center">Вы подписаны на категорию: {{cats.pk}}</p>-->
+<!--    {% endif %}-->
 
 
 <ul class="news_list">
