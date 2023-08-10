@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractBaseUser, AbstractUser
 from django.urls import reverse
+
+
 #import views
 
 
@@ -18,9 +20,10 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     #user_cat = models.ManyToManyField('Category', through='Subscribers')
 
+
 class Category(models.Model):
     name = models.CharField(max_length=50, db_index=True, unique=True)
-    subscribers = models.ManyToManyField(User, related_name='categories')
+    subscribers = models.ManyToManyField(User, related_name='categories', blank=True)
 
     def __str__(self):
         return self.name
@@ -31,12 +34,14 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Категории'
 
+
 class News(models.Model):
-    date = models.CharField(max_length=20, verbose_name='Дата')
-    title = models.CharField(max_length=255, blank=True, verbose_name='Заголовок')
-    description = models.TextField( blank=True, verbose_name='Содержание')
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
-    auth = models.ForeignKey('Author', on_delete=models.PROTECT, null=True, verbose_name='Автор')
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Содержание')
+    date = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(default=0)
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT,  verbose_name='Категория')
+    auth = models.ForeignKey('Author', null=True, blank=True, on_delete=models.PROTECT, verbose_name='Автор')
 
     def __str__(self):
         return self.title
@@ -48,23 +53,6 @@ class News(models.Model):
         ordering = ['-date']
         verbose_name_plural = 'News'
 
-
-
-class Author(models.Model):
-    name = models.CharField(max_length=255),
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-
-
-
-class Post(models.Model):
-    title = models.CharField(max_length=255)
-    content = models.TextField
-    authors = models.ForeignKey(Author, on_delete=models.CASCADE)
-    post_type = models.CharField(max_length=10, choices=type)
-    post_date = models.DateTimeField(auto_now_add=True)
-    post_cat = models.ManyToManyField(Category, through='PostCategory')
-    rating = models.IntegerField(default=0)
-
     def like(self):
         self.rating += 1
         self.save()
@@ -74,14 +62,19 @@ class Post(models.Model):
         self.save()
 
 
-class PostCategory(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+class Author(models.Model):
+    name = models.CharField(max_length=255),
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+
+
+class NewsCategory(models.Model):
+    news = models.ForeignKey(News, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
-    post_com = models.ForeignKey(Post, on_delete=models.CASCADE)
-    post_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    news_com = models.ForeignKey(News, on_delete=models.CASCADE)
+    news_user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
     com_date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(default=0)

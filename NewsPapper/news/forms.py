@@ -10,7 +10,7 @@ from .models import *
 class AddNewsForm(forms.ModelForm):
     class Meta:
         model = News
-        fields = ['title', 'date', 'description', 'cat']
+        fields = ['title', 'description', 'cat']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input'}),
             'description': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
