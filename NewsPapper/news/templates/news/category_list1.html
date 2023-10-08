@@ -1,0 +1,38 @@
+{% extends 'news/default.html' %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock title %}
+
+{% for c in cats %}
+
+	{% if c.pk == cat_selected %}
+		<li class="selected">{{c.name}}</li>
+	{% else %}
+		<li><a href="{{ c.get_absolute_url }}">{{c.name}}</a></li>
+	{% endif %}
+{% endfor %}
+
+{% block content %}
+	{% if is_not_subscriber %}
+		<p class="text-center"><button><a href="{% url 'subscribe' category.id %}">Подписаться</a></button></p>
+	{% endif %}
+
+
+<ul class="news_list">
+    {% for с in category_news_list %}
+    <li>
+        <p class="first">Категория:
+            {% for category in с.category.all %}
+                <a href="{% url 'category_list' category.id %}"> {{category}}</a></p>
+            {% endfor %}
+        <p><small>автор: {{с.auth}}</small></p>
+        <h2>{{с.title}}</h2>
+        <p>{{с.date}}</p>
+        <p>{{с.description|truncatechars:20}}</p>
+        <p class="read_post"><a href="{{с.get_absolute_url}}">Читать новость</a></p>
+        <hr>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

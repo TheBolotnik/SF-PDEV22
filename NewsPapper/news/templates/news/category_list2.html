@@ -2,28 +2,30 @@
 
 {% block content %}
 <h1>{{title}}</h1>
-            {% if is_not_subscriber %}
-        	<p class="text-center"><button><a href="{% url 'subscribe' categories.pk %}">Подписаться на категорию</a></button></p>
-        {% else %}
-            <p class="text-center">Вы подписаны на категорию: {{c.id}}</p>
-        {% endif %}
 
-<!--    {% if is_not_subscriber %}-->
-<!--    		<p class="link-read-post"><a href="{{cats.get_absolute_url}}}">Подписаться на категорию</a></p>-->
-<!--    {% else %}-->
-<!--            <p class="text-center">Вы подписаны на категорию: {{cats.pk}}</p>-->
-<!--    {% endif %}-->
+
+
+
 
 
 <ul class="news_list">
     {% for p in posts %}
     <li>
-        <p class="first">Категория: {{p.cat}}</p>
+        {% if c %}
+            <p class="first">Категория: {{p.cat}} -
+            <em><a href="{% url 'subscribe' c.id %}" > подписаться на категорию</a></em>
+            </p>
+        {% else %}
+            <p class="first">
+                <em>Категория: {{p.cat}}</em> - вы подписаны!
+                <em><a href="{% url 'unsubscribe' c.id %}" > отписаться</a></em>
+            </p>
+        {% endif %}
         <small>автор: {{p.auth}}</small>
         <h2>{{p.title}}</h2>
         <p>{{p.date}}</p>
         <p>{{p.description|truncatechars:20}}</p>
-        <p class="read_post"><a href="{{p.get_absolute_url}}">Читать новость</a></p>
+        <p class="link-read-post"><a href="{{p.get_absolute_url}}">Читать новость</a></p>
         <hr>
     </li>
     {% endfor %}
