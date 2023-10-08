@@ -18,7 +18,7 @@
         {% else %}
             <p class="first">
                 <em>Категория: {{p.cat}}</em> - вы подписаны!
-                <em><a href="{% url 'unsubscribe' c.id %}" > отписаться</a></em>
+                <em><a href="{% url 'unsubscribe' c.id %}"> Отписаться</a></em>
             </p>
         {% endif %}
         <small>автор: {{p.auth}}</small>
