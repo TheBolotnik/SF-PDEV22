@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'news',
 
 ]
+DEFAULT_FROM_EMAIL = 'SF-PDEV-27@yandex.ru'
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -58,6 +59,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 ACCOUNT_FORMS = {'signup': 'news.forms.CommonSignupForm'}
 
