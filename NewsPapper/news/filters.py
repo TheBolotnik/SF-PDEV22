@@ -10,5 +10,5 @@ class NewsFilter(FilterSet):
             'cat': ['exact'],
             'title': ['icontains'],
             'date': ['gt'],
-            'auth': ['exact'],
+           # 'auth': ['exact'],
         }

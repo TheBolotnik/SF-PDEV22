@@ -21,6 +21,8 @@ urlpatterns = [
     path('', NewsHome.as_view(), name='home'),
     path('news/', NewsList.as_view(), name='news'),
     path('news/create/', AddNews.as_view(), name='add_news'),
+    path('news/<int:pk>/edit/', NewsEdit.as_view(), name='edit_news'),
+    path('news/<int:pk>/delete/', NewsDelete.as_view(), name='delete_news'),
     path('news/search', Search.as_view(), name='search'),
     path('post/<int:post_id>/', ShowPost.as_view(), name='post'),
     path('category/<int:cat_id>', NewsCategory.as_view(), name='category'),
@@ -29,6 +31,7 @@ urlpatterns = [
     path('signin/', SignIn.as_view(), name='signin'),
     path('news/create/upgrade/', upgrade_authors, name='upgrade'),
     path('category/<int:cat_id>/subscribe', subscribe, name='subscribe'),
+    path('category/<int:cat_id>/unsubscribe', unsubscribe, name='unsubscribe'),
 
     #path('profile/', UserProfile.as_view(), name='profile')
 
