@@ -16,15 +16,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-#import allauth
+from news.tasks.tasks import MyTask
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
     path('accounts/', include('allauth.urls')),
-
-
+    path('tasks/', MyTask.as_view()),
 
 ]
 
