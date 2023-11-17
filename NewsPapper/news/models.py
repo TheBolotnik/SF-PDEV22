@@ -29,6 +29,10 @@ class News(models.Model):
         ordering = ['-date']
         verbose_name_plural = 'News'
 
+    def preview(self):
+        preview = f'{self.description[:50]}'
+        return preview
+
     def like(self):
         self.rating += 1
         self.save()
