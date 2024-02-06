@@ -6,9 +6,10 @@ from django.urls import reverse
 class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     content = models.TextField(verbose_name='Описание')
+    images = models.ImageField(upload_to='images/%Y/%m/%d/', default=None, blank=True, null=True, verbose_name='Изображения')
     date = models.DateTimeField(auto_now_add=True)
     cat = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Категория')
-    #author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts', verbose_name='Автор')
 
     def __str__(self):
         return self.title
@@ -20,9 +21,9 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post', kwargs={'post_id': self.pk})
 
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    #subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
         return self.name
@@ -36,10 +37,19 @@ class Profile(models.Model):
 
 
 class Reply(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='replies')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reply_post')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор отклика")
+    text = models.TextField(verbose_name="Текст отклика")
     datetime = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(verbose_name="Опубликовано", default=False)
 
     def __str__(self):
         return f'Пользователь {User} прокомментировал: {self.text[:50]}...'
+
+    def priview(self):
+        preview = f'{self.text[:124]}...'
+        return preview
+
+
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='uploads_model')

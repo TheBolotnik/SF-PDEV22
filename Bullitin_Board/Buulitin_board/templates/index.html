@@ -22,8 +22,8 @@
                 <div class="sidebar-heading border-bottom bg-light">Категории объявлений</div>
 
                 <div class="list-group list-group-flush">
-                {% for c in object_list %}
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#">{{ c }}</a>
+                {% for c in categories %}
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'category' c.id %}">{{ c.name }}</a>
                 {% endfor %}
 
                 </div>
@@ -35,15 +35,21 @@
                 <!-- Top navigation-->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                     <div class="container-fluid">
-                        <button class="btn btn-primary" id="sidebarToggle">Доска объявлений</button>
+                        <a href="{% url 'home' %}"><button class="btn btn-primary" id="sidebarToggle">Доска объявлений</button></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                                 {% for pm in profile_menu %}
-
                                 <li class="nav-item active"><a class="nav-link" href="{% url pm.url_name %}">{{ pm.title }}</a></li>
                                 {% endfor %}
-
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item active"><a class="nav-link" href="{% url 'add_post' %}">Добавить объявление | </a></li>
+                                    <li class="nav-item active"><a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }} | </a></li>
+                                    <li class="nav-item active"><a class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
+                                {% else %}
+                                <li class="nav-item active"><a class="nav-link" href="{% url 'users:login' %}">Войти</a></li> |
+                                <li class="nav-item active"><a class="nav-link" href="{% url 'users:signin' %}">Регистрация</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -52,9 +58,6 @@
                 {% block content %}
                 <div class="container-fluid">
                     <h1 class="mt-4">{{ title }}</h1>
-
-
-
                 </div>
                 {% endblock %}
             </div>

@@ -5,9 +5,9 @@
 
 {% block content %}
     {% for p in posts %}
-        <a href="#" <h1>{{p.title}}</h1></a>
+        <a href="{{ p.get_absolute_url }}"><h1>{{p.title}}</h1></a>
         <p><small>{{p.date}}</small></p>
         <p><h5>Категория - {{p.cat}}</p></h5>
-        <small>(автор: {{p.auth}})</small>
+        <small>(автор: {{p.author}})</small>
     {% endfor %}
 {% endblock %}

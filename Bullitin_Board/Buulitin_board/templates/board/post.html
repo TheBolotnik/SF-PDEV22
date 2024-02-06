@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>{{post.title}}</h1>
+<h5>{{post.date}}
+<p>Категория - {{post.cat}}</p></h5>
+<small>(автор: {{post.author}})</small>
+
+{{post.content|linebreaks}}
+
+
+{% if post.images %}
+    <p><img class="card-img" src="{{ post.images.url }}"></p>
+{% endif %}
+
+<p><i><small><a href="#">Изменить</a></small></i></p>
+
+<hr>
+<h3><b>Отклики</b></h3>
+
+    {% if post.reply_post.all %}
+        {% for p in post.reply_post.all %}
+        <ul><p><b><i>{{ p.author }}</i></b></p></ul>
+        <small><i>{{ p.datetime }}</i></small>
+        <p>{{ p.text }}</p>
+        <hr>
+        {% endfor %}
+    {% else %}
+        <h6>Никто еще не оставил откликов</h6>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+
+
+    <p><div class="form-text">
+       <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="text" value="next" />
+            {{ form.as_p }}
+            <p><button type="submit">Добавить отклик</button></p>
+        </form>
+    </div></p>
+    {% endif %}
+{% endblock %}
+

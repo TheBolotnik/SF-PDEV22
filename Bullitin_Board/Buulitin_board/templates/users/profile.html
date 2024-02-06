@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Профиль пользователя - {{ user.username }}</h1>
+<hr>
+
+<h3>Изменить личные данные</h3>
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="text" value="next" />
+
+   {{form.as_p}}
+
+  <p><button type="submit">Сохранить</button></p>
+</form>
+<hr>
+<h2>Ваши объявления</h2>
+
+<hr>
+<h2>Ваши отклики</h2>
+    {{ post.reply_post.all }}
+{% endblock %}
+
