@@ -19,15 +19,18 @@
 <h3><b>Отклики</b></h3>
 
     {% if post.reply_post.all %}
-        {% for p in post.reply_post.all %}
-        <ul><p><b><i>{{ p.author }}</i></b></p></ul>
-        <small><i>{{ p.datetime }}</i></small>
-        <p>{{ p.text }}</p>
-        <hr>
-        {% endfor %}
-    {% else %}
-        <h6>Никто еще не оставил откликов</h6>
-    {% endif %}
+            {% for p in post.reply_post.all %}
+                {% if p.reply_status %}
+                    <ul><p><b><i>{{ p.author }}</i></b></p></ul>
+                    <small><i>{{ p.datetime }}</i></small>
+                    <small><b>{{ p.reply_status }}</b></small>
+                    <p>{{ p.text }}</p>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h6>Никто еще не оставил откликов</h6>
+        {% endif %}
 
     {% if user.is_authenticated %}
 

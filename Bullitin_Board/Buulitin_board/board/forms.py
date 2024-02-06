@@ -26,7 +26,7 @@ class ReplyForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['text'].widget = Textarea(attrs={'row':3})
+        self.fields['text'].widget = Textarea(attrs={'row': 3})
 
 
 

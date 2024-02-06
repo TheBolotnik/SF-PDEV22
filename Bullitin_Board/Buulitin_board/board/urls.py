@@ -8,7 +8,5 @@ urlpatterns = [
     path('post/<int:post_id>/', ShowPost.as_view(), name='post'),
     path('edit/<int:pk>/', EditPost.as_view(), name='edit'),
     path('add_post/', Add_Post.as_view(), name='add_post'),
-    #path('login/', login, name='login'),
-    path('signin/', signin, name='signin'),
-    path('profile/', profile, name='profile'),
+
 ]

@@ -77,7 +77,7 @@ class ShowPost(FormMixin, DetailView):
     form_class = ReplyForm
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('post', kwargs={'pk': self.get_object().id})
+        return reverse_lazy('post/', kwargs={'pk': self.get_object().id})
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -95,7 +95,6 @@ class ShowPost(FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'post'
         context['profile_menu'] = profile_menu
-        #c_def = self.get_user_context(title=context['post'])
         return context
 
 
@@ -136,27 +135,6 @@ class EditPost(UpdateView):
         'profile_menu': profile_menu
     }
 
-
-def login(request):
-    data = {
-        'title': 'Вход',
-        'menu': menu,
-        'profile_menu': profile_menu
-    }
-    return render(request=request, template_name='board/login.html', context=data)
-
-
-def logout(request):
-    pass
-
-
-def signin(request):
-    data = {
-        'title': 'Регистрация',
-        'menu': menu,
-        'profile_menu': profile_menu
-    }
-    return render(request=request, template_name='board/signin.html', context=data)
 
 
 def profile(request):

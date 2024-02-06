@@ -12,6 +12,9 @@ urlpatterns = [
     path('signin/', SigninUser.as_view(), name='signin'),
     path('profile/', ProfileUser.as_view(), name='profile'),
 
+    #ajax
+    #path('reply_status/<int:pk>/<slug:type>', reply_status(), name='reply_status'),
+
     path('password-reset/', PasswordResetView.as_view(
         template_name='users/password_reset_form.html',
         email_template_name='users/password_reset_email.html',

@@ -15,9 +15,46 @@
 </form>
 <hr>
 <h2>Ваши объявления</h2>
-
+    {% if user_posts %}
+        {% for up in user_posts %}
+            {{ up.title }}
+            {{ up.content }}
+            {{ up.data }}
+        {% endfor %}
+    {% else %}
+        <b>Вы еще не опубликовали ни одного поста</b>
+    {% endif %}
 <hr>
 <h2>Ваши отклики</h2>
-    {{ post.reply_post.all }}
+    {% if post.reply_post.all %}
+        {% for p in post.reply_post.all %}
+            <ul><p><b><i>{{ p.author }}</i></b></p></ul>
+            <small><i>{{ p.datetime }}</i></small>
+            <small><b>{{ p.reply_status }}</b></small>
+            <p>{{ p.text }}</p>
+            <small>
+                <a href="#"> Опубликовать </a>
+            </small>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <h6>Никто еще не оставил вам откликов</h6>
+    {% endif %}
+
+
+
 {% endblock %}
 
+
+
+{% if post.reply_post.all %}
+        {% for p in post.reply_post.all %}
+        <ul><p><b><i>{{ p.author }}</i></b></p></ul>
+        <small><i>{{ p.datetime }}</i></small>
+        <small><b>{{ p.reply_status }}</b></small>
+        <p>{{ p.text }}</p>
+        <hr>
+        {% endfor %}
+    {% else %}
+        <h6>Никто еще не оставил откликов</h6>
+    {% endif %}

@@ -21,6 +21,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 
 
+class ReplyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'post', 'author', 'text', 'datetime', 'reply_status')
+
+
 admin.site.register(Post, PostAdmin)
 
 admin.site.register(Category, CategoryAdmin)
+
+admin.site.register(Reply, ReplyAdmin)

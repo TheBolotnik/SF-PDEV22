@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+#from users.models import ReplyFilter
 
 
 class Post(models.Model):
@@ -41,10 +42,11 @@ class Reply(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор отклика")
     text = models.TextField(verbose_name="Текст отклика")
     datetime = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(verbose_name="Опубликовано", default=False)
+    reply_status = models.BooleanField(verbose_name="Опубликовано", default=False)
+    #objects = ReplyFilter()
 
     def __str__(self):
-        return f'Пользователь {User} прокомментировал: {self.text[:50]}...'
+        return self.text
 
     def priview(self):
         preview = f'{self.text[:124]}...'
