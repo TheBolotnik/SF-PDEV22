@@ -54,7 +54,7 @@ class PostFilter(FilterSet):
 
     def __init__(self, *args, **kwargs):
         super(PostFilter, self).__init__(*args, **kwargs)
-        self.filters['post'].queryset = Post.objects.filter(author__user_id=kwargs['request'])
+        self.filters['post'].queryset = Post.objects.filter(author_id=kwargs['request'])
 
 
 class ProfileUserView(LoginRequiredMixin, ListView):
@@ -63,7 +63,7 @@ class ProfileUserView(LoginRequiredMixin, ListView):
     context_object_name = 'replies'
 
     def get_queryset(self):
-        queryset = Reply.objects.filter(post__author__user_id=self.request.user.id)
+        queryset = Reply.objects.filter(post__author_id=self.request.user.id)
         self.filterset = PostFilter(self.request.GET, queryset, request=self.request.user.id)
         if self.request.GET:
             return self.filterset.qs
