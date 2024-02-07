@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Профиль пользователя - {{ user.username }}</h1>
+<hr>
+
+<hr>
+<h2>Ваши объявления</h2>
+  <form action="" method="get">
+      {{ filterset.form }}
+      <input type="submit" value="Найти">
+  </form>
+<hr>
+<h2>Ваши отклики</h2>
+    {% if replies %}
+        {% for reply in replies %}
+            <ul><p><b><i>{{ reply.author }}</i></b></p></ul>
+            <small><i>{{ reply.datetime }}</i></small>
+            <small><b>{{ reply.reply_status }}</b></small>
+            <p>{{ reply.text }}</p>
+            <small>
+                <a href="#"> Опубликовать </a>
+            </small>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <h6>Никто еще не оставил вам откликов</h6>
+    {% endif %}
+
+
+
+{% endblock %}
+
+
+
+{% if post.reply_post.all %}
+        {% for p in post.reply_post.all %}
+        <ul><p><b><i>{{ p.author }}</i></b></p></ul>
+        <small><i>{{ p.datetime }}</i></small>
+        <small><b>{{ p.reply_status }}</b></small>
+        <p>{{ p.text }}</p>
+        <hr>
+        {% endfor %}
+    {% else %}
+        <h6>Никто еще не оставил откликов</h6>
+    {% endif %}

@@ -33,17 +33,12 @@ class Category(models.Model):
         return reverse('category', kwargs={'cat_id': self.pk})
 
 
-class Profile(models.Model):
-    pass
-
-
 class Reply(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reply_post')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор отклика")
     text = models.TextField(verbose_name="Текст отклика")
     datetime = models.DateTimeField(auto_now_add=True)
     reply_status = models.BooleanField(verbose_name="Опубликовано", default=False)
-    #objects = ReplyFilter()
 
     def __str__(self):
         return self.text

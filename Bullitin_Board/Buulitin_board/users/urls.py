@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signin/', SigninUser.as_view(), name='signin'),
-    path('profile/', ProfileUser.as_view(), name='profile'),
+    path('profile/', ProfileUserView.as_view(), name='profile'),
 
     #ajax
     #path('reply_status/<int:pk>/<slug:type>', reply_status(), name='reply_status'),
