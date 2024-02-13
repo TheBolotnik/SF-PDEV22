@@ -74,7 +74,7 @@ class PerevalAdd(models.Model):
 
     beauty_title = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    other_titles = models.CharField(max_length=255)
+    other_titles = models.CharField(max_length=255, null=True, blank=True)
     connect = models.CharField(max_length=255)
     add_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS, default=new)

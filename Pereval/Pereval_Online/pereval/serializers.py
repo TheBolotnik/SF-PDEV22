@@ -37,7 +37,9 @@ class PerevalSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = PerevalAdd
-        fields = ['id', 'user_id', 'coords_id', 'level_diff', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'image', 'status']   #'id', 'images', 'user', 'coords', 'level', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time'
+        fields = ['id', 'user_id', 'coords_id', 'level_diff', 'beauty_title', 'title',
+                  'other_titles', 'connect', 'add_time', 'image', 'status']
+        # ['id', 'images', 'user', 'coords', 'level', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time']
 
     def validate(self, data):
         if self.instance is not None:

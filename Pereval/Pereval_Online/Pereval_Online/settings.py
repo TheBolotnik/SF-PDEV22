@@ -77,14 +77,19 @@ WSGI_APPLICATION = "Pereval_Online.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# ------------------------------------------------ #
+
+'''Дефолтная база данных (SQLite3)'''
+
 DATABASES = {
-    "default": {
+     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+# ------------------------------------------------ #
 
-
+'''Кастомная база данных (PostgreSQL)'''
 
 # DATABASES = {
 #     'default': {
